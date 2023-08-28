@@ -1,10 +1,11 @@
 const container = document.getElementById("container");
 //console.log(container);
-
+const paginacion = 8;
 const getPersonajes = () => {
-    fetch ("https://rickandmortyapi.com/api/character")
+    fetch (`https://rickandmortyapi.com/api/character/?page=${paginacion}`)
     .then (res => res.json())
-    .then ((data) => renderPersonajes(data))//console.log(data))
+    .then ((data) => renderPersonajes(data))
+    console.log(paginacion)
 }
 
 getPersonajes();
@@ -38,4 +39,24 @@ const verDescripcion = (personajeURL) => {
         </div>`
     })
 }
+// boton-prev.addEventListener("click", () => {
 
+// //   console.log("Boton Prev")
+// //   if (paginacion <= 1) {
+// //     btn-prev.setAttribute("disabled", true);
+// //   }
+// //   else{paginacion -= 1;}
+//   paginacion -=1;
+//   getPersonajes();
+// });
+
+boton-next.addEventListener("click", () => {
+  paginacion += 1;
+//   if (paginacion >= 1) {
+//     btn-prev.removeAttribute("disabled", true);
+//   }
+//   if (paginacion =>42) {
+//     btn-next.setAttribute("disabled", true);
+//   }
+  getPersonajes();
+});
