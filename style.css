@@ -3,7 +3,15 @@ body {
     font-family: sans-serif;
     margin: 0px;
     padding: 0px;
-     
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+header{
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(180deg,#0c7c85,#053d45);
 }
 
 .container {
@@ -13,6 +21,9 @@ body {
     width: 70%;
     margin: 100px auto;
   }
+  .imgHeader{
+    border-radius: 50%;
+}
 
   .card {
     width: 200px;
@@ -37,9 +48,11 @@ body {
     display: block;
     margin: 0 auto;
   }
+
   .card-detail {
     display: flex;
-    gap: 50px;
+    flex-direction: column;
+    gap: 5px;
     padding: 20px;
     border: 2px solid black;
     border-radius: 15px;
@@ -50,3 +63,17 @@ body {
     height: auto;
     object-fit: contain;
   }
+  .card-detail button {
+    display: block;
+    margin: 0 auto;
+  }
+  .card-detail h1 {
+    text-align: center;
+  }
+
+  .footer{
+    background-color: rgb(150, 228, 238);
+    padding: 10px;
+    text-align: right;
+    margin-top: auto;
+}
