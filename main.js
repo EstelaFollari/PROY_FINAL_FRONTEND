@@ -1,20 +1,31 @@
 const container = document.getElementById("container");
+const botonNext = document.getElementById("boton-next");
+const botonPrev = document.getElementById("boton-prev");
 //console.log(container);
-const paginacion = 8;
-const getPersonajes = () => {
-    fetch (`https://rickandmortyapi.com/api/character/?page=${paginacion}`)
-    .then (res => res.json())
-    .then ((data) => renderPersonajes(data))
-    console.log(paginacion)
+let paginacion = 1;
+let totalPaginas = 1;
+const getPersonajes = (pag) => {
+    container.innerHTML = ""; // borra el contenedor
+    fetch(`https://rickandmortyapi.com/api/character/?page=${pag}`)
+        .then(res => res.json())
+        .then((data) => {
+            renderPersonajes(data);
+            totalPaginas = data.info.pages;
+            //console.log(totalPaginas)
+        })
 }
 
-getPersonajes();
+
+botonPrev.setAttribute("disabled", true);
+getPersonajes(paginacion);
+
+
 
 const renderPersonajes = (data) => {
-    container.innerHTML = "";
-    data.results.forEach(personaje =>{
+    //console.log(data);
+    data.results.forEach(personaje => {
         container.innerHTML +=
-        `<div class="card">
+            `<div class="card">
         <h2>${personaje.name}</h2>
         <img src="${personaje.image}" alt="">
         <button class="button" onClick=verDescripcion("${personaje.url}")>Ver Mas...</button>
@@ -23,12 +34,11 @@ const renderPersonajes = (data) => {
 }
 
 const verDescripcion = (personajeURL) => {
-    container.innerHTML = ""; // borra el contenedor
-    fetch (personajeURL)
-    .then (res => res.json())
-    .then ((personaje) => {
-    container.innerHTML =
-        `<div class="card-detail">
+    fetch(personajeURL)
+        .then(res => res.json())
+        .then((personaje) => {
+            container.innerHTML =
+                `<div class="card-detail">
         <h1>${personaje.name}</h1>
         <img src="${personaje.image}" alt="">
         <p><strong>Origen:</strong> ${personaje.origin.name}</p>
@@ -37,26 +47,43 @@ const verDescripcion = (personajeURL) => {
         <p><strong>Género:</strong> ${personaje.gender}</p>
         <button class="button" onClick=getPersonajes()>Volver</button>
         </div>`
-    })
+        })
 }
-// boton-prev.addEventListener("click", () => {
+botonPrev.addEventListener("click", () => {
+    console.log(paginacion)
+    if (paginacion <= totalPaginas && paginacion > 1) {
+        botonNext.removeAttribute("disabled", false);
+        paginacion--;
+        botonPrev.removeAttribute("disabled", false);
+    }
 
-// //   console.log("Boton Prev")
-// //   if (paginacion <= 1) {
-// //     btn-prev.setAttribute("disabled", true);
-// //   }
-// //   else{paginacion -= 1;}
-//   paginacion -=1;
-//   getPersonajes();
-// });
+    if (paginacion <= 1) {
+        botonPrev.setAttribute("disabled", true);
+    }
 
-boton-next.addEventListener("click", () => {
-  paginacion += 1;
-//   if (paginacion >= 1) {
-//     btn-prev.removeAttribute("disabled", true);
-//   }
-//   if (paginacion =>42) {
-//     btn-next.setAttribute("disabled", true);
-//   }
-  getPersonajes();
+    console.log(`llamo desde PREV a getPersonajes con ${paginacion}`)
+    getPersonajes(paginacion);
+});
+
+botonNext.addEventListener("click", () => {
+    console.log(paginacion)
+    if (paginacion <= 1) {
+        botonPrev.removeAttribute("disabled", false);
+        paginacion++;
+    } else {
+        if (paginacion > 1 && paginacion < totalPaginas) {
+            //botonNext.setAttribute("disabled", false);
+            paginacion++;
+            //console.log("entra", paginacion)
+        }
+
+    }
+
+
+    if (paginacion == totalPaginas) {
+        botonNext.setAttribute("disabled", false);
+        //console.log("entra ultimo else",paginacion)
+    }
+    console.log(`llamo desde NEXT a getPersonajes con ${paginacion}`)
+    getPersonajes(paginacion);
 });
