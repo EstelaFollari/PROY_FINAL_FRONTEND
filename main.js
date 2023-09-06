@@ -5,24 +5,30 @@ const botonPrev = document.getElementById("boton-prev");
 const filtroGenero = document.getElementById("filtroGenero");
 
 
-//console.log(filtroGenero);
+//console.log(filtroGenero.value);
 //console.log(container);
 let paginacion = 1;
 let totalPaginas = 1;
-const getPersonajes = (pag) => {
+let filtro="";
+//let valorfiltro="unknown"
+//let todo = "female&gender=male&gender=genderless&gender=unknown";
+
+const getPersonajes = (paramFiltro,pag) => {
+    console.log(paramFiltro,pag);
     container.innerHTML = ""; // borra el contenedor
-    fetch(`https://rickandmortyapi.com/api/character/?page=${pag}`)
+    fetch(`https://rickandmortyapi.com/api/character/?page=${pag}${paramFiltro}`)
+
         .then(res => res.json())
         .then((data) => {
             renderPersonajes(data);
             totalPaginas = data.info.pages;
-            //console.log(totalPaginas)
+            console.log(totalPaginas)
         })
 }
 
 
 botonPrev.setAttribute("disabled", true);
-getPersonajes(paginacion);
+getPersonajes(filtro,paginacion);
 
 
 
@@ -67,33 +73,34 @@ botonPrev.addEventListener("click", () => {
     }
 
     console.log(`llamo desde PREV a getPersonajes con ${paginacion}`)
-    getPersonajes(paginacion);
+    getPersonajes(filtro,paginacion);
 });
 
 botonNext.addEventListener("click", () => {
     console.log(paginacion)
     if (paginacion <= 1) {
         botonPrev.removeAttribute("disabled", false);
-        paginacion++;
+        if (totalPaginas>1) paginacion++;
+        else botonNext.setAttribute("disabled", false);
     } else {
         if (paginacion > 1 && paginacion < totalPaginas) {
             //botonNext.setAttribute("disabled", false);
             paginacion++;
             //console.log("entra", paginacion)
         }
-
     }
-
-
     if (paginacion == totalPaginas) {
         botonNext.setAttribute("disabled", false);
-        //console.log("entra ultimo else",paginacion)
+        console.log("entra ultimo else",paginacion)
     }
     console.log(`llamo desde NEXT a getPersonajes con ${paginacion}`)
-    getPersonajes(paginacion);
+    getPersonajes(filtro,paginacion);
 });
 
 filtroGenero.addEventListener("change", () => {
     console.log(filtroGenero);
-    getPersonajes(42);
+    if (filtroGenero.value == "todos") filtro = "";
+    else filtro = `&gender=${filtroGenero.value}`;
+
+    getPersonajes(filtro,paginacion=1);
 });
