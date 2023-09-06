@@ -1,6 +1,11 @@
 const container = document.getElementById("container");
 const botonNext = document.getElementById("boton-next");
 const botonPrev = document.getElementById("boton-prev");
+
+const filtroGenero = document.getElementById("filtroGenero");
+
+
+//console.log(filtroGenero);
 //console.log(container);
 let paginacion = 1;
 let totalPaginas = 1;
@@ -86,4 +91,9 @@ botonNext.addEventListener("click", () => {
     }
     console.log(`llamo desde NEXT a getPersonajes con ${paginacion}`)
     getPersonajes(paginacion);
+});
+
+filtroGenero.addEventListener("change", () => {
+    console.log(filtroGenero);
+    getPersonajes(42);
 });
