@@ -14,23 +14,27 @@
             <img src="imagen/logotransp.png" height="200" class="imgHeader" alt="logo_Rick and Morty">
         </div>
         <nav class ="filtro" id="filtro">
-            <h4>Seleccione Género:</h4>
             <select name="selectGenero" id="filtroGenero">
-                <option class="option" value="todos" selected>Todos</option>
-                <option class="option" value="female">Mujeres</option>
-                <option class="option" value="male">Hombres</option>
-                <option class="option" value="genderless">Sin Genero</option>
-                <option class="option" value="unknown">Desconocido</option>
+                <option value="todos" selected>Todos</option>
+                <option value="female">Mujeres</option>
+                <option value="male">Hombres</option>
+                <option value="genderless">Sin Genero</option>
+                <option value="unknown">Desconocido</option>
               </select>
+              <select name="selectOtro" id="filtroOtro">
+                <option value="todosOtro" selected>todosOtro</option>
+                <option value="otro 1">otro 1</option>
+                <option value="otro 2">otro 2</option>
+                <option value="otro 3">otro 3</option>
+              </select>
+
         </nav>
-     
+       
     </header>
     <div class="container" id="container"></div> 
-
-
     <nav>
-        <button class="boton prev deshabilitado" id="boton-prev">Anterior</button>
-        <button class="boton next deshabilitado" id="boton-next">Siguiente</button>
+        <button class="boton-prev" id="boton-prev">Anterior</button>
+        <button class="boton-next" id="boton-next">Siguiente</button>
     </nav>
     <footer>
         <div class="footer">

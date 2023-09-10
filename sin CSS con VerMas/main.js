@@ -16,18 +16,17 @@ let filtro="";
 const getPersonajes = (paramFiltro,pag) => {
     console.log(paramFiltro,pag);
     container.innerHTML = ""; // borra el contenedor
-    
     fetch(`https://rickandmortyapi.com/api/character/?page=${pag}${paramFiltro}`)
 
         .then(res => res.json())
         .then((data) => {
-            totalPaginas = data.info.pages;
             renderPersonajes(data);
-            console.log("total paginas en fetch",totalPaginas)
+            totalPaginas = data.info.pages;
+            console.log(totalPaginas)
         })
-
-        
 }
+
+
 botonPrev.setAttribute("disabled", true);
 getPersonajes(filtro,paginacion);
 
@@ -35,31 +34,17 @@ getPersonajes(filtro,paginacion);
 
 const renderPersonajes = (data) => {
     //console.log(data);
-    console.log("total paginas en render",totalPaginas)
-    if (totalPaginas == 1) {
-        console.log ("totalPaginas==1")
-        botonNext.setAttribute("disabled", true);
-     }
-          
     data.results.forEach(personaje => {
         container.innerHTML +=
-        `<div class="card">
-            <div class="frente">
-                <h2>${personaje.name}</h2>
-                <img src="${personaje.image}" alt="">
-            </div>
-            <div class="atras">
-                <h1>${personaje.name}</h1>
-                <p><strong>Origen:</strong> ${personaje.origin.name}</p>
-                <p><strong>Especie:</strong> ${personaje.species}</p>
-                <p><strong>Estado:</strong> ${personaje.status}</p>
-                <p><strong>Género:</strong> ${personaje.gender}</p>
-            </div>
-        <div>`
+            `<div class="card">
+        <h2>${personaje.name}</h2>
+        <img src="${personaje.image}" alt="">
+        <button class="button" onClick=verDescripcion("${personaje.url}")>Ver Mas...</button>
+        </div>`
     });
 }
 
-/*const verDescripcion = (personajeURL) => {
+const verDescripcion = (personajeURL) => {
     fetch(personajeURL)
         .then(res => res.json())
         .then((personaje) => {
@@ -74,7 +59,7 @@ const renderPersonajes = (data) => {
         <button class="button" onClick=getPersonajes()>Volver</button>
         </div>`
         })
-}*/
+}
 botonPrev.addEventListener("click", () => {
     console.log(paginacion)
     if (paginacion <= totalPaginas && paginacion > 1) {
@@ -116,8 +101,6 @@ filtroGenero.addEventListener("change", () => {
     console.log(filtroGenero);
     if (filtroGenero.value == "todos") filtro = "";
     else filtro = `&gender=${filtroGenero.value}`;
-    
-    botonNext.removeAttribute("dissbled");
-    botonPrev.setAttribute("disabled", true);
+
     getPersonajes(filtro,paginacion=1);
 });
