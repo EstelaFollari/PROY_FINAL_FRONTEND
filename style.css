@@ -167,3 +167,14 @@ header{
     text-align: right;
     margin-top: auto;
 }
+
+@media screen and (max-width: 375px) {
+  /* Estilos para pantallas con un ancho de 375px o menos */
+  .imgHeader{
+    width: 90%;
+  }
+  .filtro{
+    display: flex;
+    flex-direction: row;
+  }
+}
