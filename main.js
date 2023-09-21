@@ -1,9 +1,7 @@
 const container = document.getElementById("container");
 const botonNext = document.getElementById("boton-next");
 const botonPrev = document.getElementById("boton-prev");
-
 const filtroGenero = document.getElementById("filtroGenero");
-
 
 //console.log(filtroGenero.value);
 //console.log(container);
@@ -14,7 +12,7 @@ let filtro="";
 //let todo = "female&gender=male&gender=genderless&gender=unknown";
 
 const getPersonajes = (paramFiltro,pag) => {
-    console.log(paramFiltro,pag);
+   // console.log(paramFiltro,pag);
     container.innerHTML = ""; // borra el contenedor
     
     fetch(`https://rickandmortyapi.com/api/character/?page=${pag}${paramFiltro}`)
@@ -23,7 +21,7 @@ const getPersonajes = (paramFiltro,pag) => {
         .then((data) => {
             totalPaginas = data.info.pages;
             renderPersonajes(data);
-            console.log("total paginas en fetch",totalPaginas)
+            //console.log("total paginas en fetch",totalPaginas)
         })
 
         
@@ -37,11 +35,12 @@ const renderPersonajes = (data) => {
     //console.log(data);
     console.log("total paginas en render",totalPaginas)
     if (totalPaginas == 1) {
-        console.log ("totalPaginas==1")
-        botonNext.setAttribute("disabled", true);
+        //console.log ("totalPaginas==1")
+        botonNext.setAttribute("disabled", false);
      }
-          
-    data.results.forEach(personaje => {
+     //else { botonNext.setAttribute("enabled", true); }         
+   
+     data.results.forEach(personaje => {
         container.innerHTML +=
         `<div class="card">
             <div class="frente">
@@ -76,7 +75,7 @@ const renderPersonajes = (data) => {
         })
 }*/
 botonPrev.addEventListener("click", () => {
-    console.log(paginacion)
+    //console.log(paginacion)
     if (paginacion <= totalPaginas && paginacion > 1) {
         botonNext.removeAttribute("disabled", false);
         paginacion--;
@@ -87,12 +86,12 @@ botonPrev.addEventListener("click", () => {
         botonPrev.setAttribute("disabled", true);
     }
 
-    console.log(`llamo desde PREV a getPersonajes con ${paginacion}`)
+    //console.log(`llamo desde PREV a getPersonajes con ${paginacion}`)
     getPersonajes(filtro,paginacion);
 });
 
 botonNext.addEventListener("click", () => {
-    console.log(paginacion)
+    //console.log(paginacion)
     if (paginacion <= 1) {
         botonPrev.removeAttribute("disabled", false);
         if (totalPaginas>1) paginacion++;
@@ -106,18 +105,18 @@ botonNext.addEventListener("click", () => {
     }
     if (paginacion == totalPaginas) {
         botonNext.setAttribute("disabled", false);
-        console.log("entra ultimo else",paginacion)
+       // console.log("entra ultimo else",paginacion)
     }
-    console.log(`llamo desde NEXT a getPersonajes con ${paginacion}`)
+    //console.log(`llamo desde NEXT a getPersonajes con ${paginacion}`)
     getPersonajes(filtro,paginacion);
 });
 
 filtroGenero.addEventListener("change", () => {
-    console.log(filtroGenero);
+   // console.log(filtroGenero);
     if (filtroGenero.value == "todos") filtro = "";
     else filtro = `&gender=${filtroGenero.value}`;
     
-    botonNext.removeAttribute("dissbled");
+    botonNext.disabled = false;
     botonPrev.setAttribute("disabled", true);
     getPersonajes(filtro,paginacion=1);
 });
