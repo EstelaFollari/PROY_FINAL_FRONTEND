@@ -33,7 +33,7 @@ getPersonajes(filtro,paginacion);
 
 const renderPersonajes = (data) => {
     //console.log(data);
-    console.log("total paginas en render",totalPaginas)
+    //console.log("total paginas en render",totalPaginas)
     if (totalPaginas == 1) {
         //console.log ("totalPaginas==1")
         botonNext.setAttribute("disabled", false);
